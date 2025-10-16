@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: topicosinscriptionservice
-        image: l0nkdev/topicosinscriptionservice:v1
+        image: l0nkdev/topicosinscriptionservice:v2
         ports:
         - containerPort: 80
         env:

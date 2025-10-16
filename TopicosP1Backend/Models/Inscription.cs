@@ -68,20 +68,41 @@ namespace CareerApi.Models
 
         public static async Task<ActionResult<object>> PostInscription(Context _context, InscriptionPost i)
         {
-            try 
-            { 
+            try
+            {
                 List<string> errors = [];
+                List<TimeSlot> timeSlots = [];
+                List<Group> groups = [];
                 var student = await _context.Students.IgnoreAutoIncludes().FirstOrDefaultAsync(_ => _.Id == i.Student);
                 var period = await _context.Periods.FirstOrDefaultAsync(_ => _.Number == i.Period && _.Gestion.Year == i.Gestion);
-                if (student == null || period == null) return new NotFoundResult();
-                if (i.GroupIds.Count <= 0) return new BadRequestResult();
+                if (student == null) throw new StudentNotFoundException(i.Student);
+                if (period == null) return new PeriodNotFoundException(i.Period, i.Gestion);
+                if (i.GroupIds.Count <= 0) throw new NoGroupsException();
                 Inscription n = new() { Student = student, Period = period, DateTime = DateTime.Now, Type = i.Type };
                 bool added = false;
                 foreach (var groupid in i.GroupIds)
                 {
-                    Group? group = await _context.Groups.FindAsync(groupid);
-                    if (group == null)
-                        return new NotFoundResult();
+                    Group? group = await _context.Groups.FindAsync(groupid) ?? throw new GroupNotFoundException();
+                    groups.Add(group);
+                }
+                foreach (Group g in groups)
+                {
+                    foreach (TimeSlot slot in g.TimeSlots)
+                    {
+                        foreach (TimeSlot inlist in timeSlots)
+                        {
+                            if (slot.Day == inlist.Day && (
+                                (slot.StartTime > inlist.StartTime && slot.StartTime < inlist.EndTime) ||
+                                (slot.EndTime > inlist.StartTime && slot.EndTime < inlist.EndTime)))
+                            {
+                                throw new TimeslotConflictException(g, inlist.Group);
+                            }
+                        }
+                        timeSlots.Add(slot);
+                    }
+                }
+                foreach (Group group in groups)
+                {
                     if (group.Quota <= 0)
                     {
                         errors.Add($"Grupo {group.Subject.Code}-{group.Code} ({group.Id}) no tiene cupos.");
@@ -141,9 +162,31 @@ namespace CareerApi.Models
                 await _context.SaveChangesAsync();
                 Console.WriteLine($"Inscription for student {student.Id} successful.");
                 return new { Errors = errors, Result = n.Simple() };
-            } catch(NoGroupsException ex) {
+            }
+            catch (NoGroupsException ex)
+            {
                 Console.WriteLine(ex);
                 return new BadRequestObjectResult(new { Error = ex.Message });
+            }
+            catch (StudentNotFoundException ex)
+            {
+                Console.WriteLine(ex);
+                return new NotFoundObjectResult(new { Error = ex.Message });
+            }
+            catch (PeriodNotFoundException ex)
+            {
+                Console.WriteLine(ex);
+                return new NotFoundObjectResult(new { Error = ex.Message });
+            }
+            catch (GroupNotFoundException ex)
+            {
+                Console.WriteLine(ex);
+                return new NotFoundObjectResult(new { Error = ex.Message });
+            }
+            catch (TimeslotConflictException ex)
+            {
+                Console.WriteLine(ex);
+                return new ConflictObjectResult(new { Error = ex.Message });
             }
         }
 

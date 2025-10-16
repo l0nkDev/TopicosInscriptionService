@@ -208,13 +208,8 @@ namespace TopicosP1Backend.Scripts
                 dynamic r = responses[id];
                 int? statusCode = GetStatusCode(r);
                 if (statusCode == 200) return new { Status = "ACCEPTED", Result = r.Value };
-                switch (statusCode)
-                {
-                    case 404: return new { Status = "REJECTED", Result = "404 Not Found" };
-                    case 400: return new { Status = "REJECTED", Result = "400 Bad Request" };
-                    case 500: return new { Status = "REJECTED", Result = "500 Internal server error" };
-                }
-                return new { Status = "REJECTED", Result = $"{statusCode} Unknown error" };
+                Console.WriteLine(r);
+                return new { Status = "REJECTED", Result = GetWrappedObject(r) };
             } catch { }
             bool isInQueue = false;
             QueuedFunction? tmp = null;
@@ -237,6 +232,13 @@ namespace TopicosP1Backend.Scripts
             IConvertToActionResult convertToActionResult = (IConvertToActionResult)actionResult.Value; // ActionResult implicit implements IConvertToActionResult
             var actionResultWithStatusCode = convertToActionResult.Convert() as IStatusCodeActionResult;
             return actionResultWithStatusCode?.StatusCode;
+        }
+
+        private static object GetWrappedObject(ActionResult<object> actionResult)
+        {
+            IConvertToActionResult convertToActionResult = (IConvertToActionResult)actionResult.Value; // ActionResult implicit implements IConvertToActionResult
+            var actionResultWithStatusCode = convertToActionResult.Convert();
+            return actionResultWithStatusCode;
         }
     }
 }
