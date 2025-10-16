@@ -1,0 +1,15 @@
+@TopicosP1Backend_HostAddress = http://localhost:32769
+
+GET {{TopicosP1Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{TopicosP1Backend_HostAddress}}/api/careers
+Content-Type: application/json
+
+{
+  {"name": "INGENIERIA INFORMATICA"}
+}
+
+###

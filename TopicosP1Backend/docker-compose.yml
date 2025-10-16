@@ -1,0 +1,7 @@
+﻿services: 
+
+  topicosp1backend:
+    image: topicosinscriptionservice:latest
+    ports: 
+      - "32002:8080"
+    

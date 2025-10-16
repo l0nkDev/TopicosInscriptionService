@@ -1,0 +1,24 @@
+﻿apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: topicos-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "topicosingress"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/Inscriptions
+        pathType: Prefix
+        backend:
+          service:
+            name: topicosinscriptionservice
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: topicosp1backend
+            port:
+              number: 80
