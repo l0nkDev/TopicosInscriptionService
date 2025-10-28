@@ -9,13 +9,6 @@ namespace TopicosP1Backend.Scripts
             if (context.Careers.Any())
                 return;
 
-            var users = new List<User>
-            {
-                new() { Role = 'S', Login = "222008288", PasswordHash=Util.Hash("123"), Token=Util.GenToken() },
-                new() { Role = 'C', Login = "admin", PasswordHash=Util.Hash("123"), Token=Util.GenToken() },
-            };
-            context.Users.AddRange(users);
-
             var careers = new List<Career>
             {
                 new() { Name = "INGENIERIA INFORMATICA" },
@@ -628,7 +621,7 @@ namespace TopicosP1Backend.Scripts
 
             var students = new List<Student>()
             {
-                new() { FirstName = "Raul", LastName = "Farell Vaca"},
+                new() { FirstName = "Raul", LastName = "Farell Vaca" },
                 new() { FirstName = "Santiago", LastName = "Contreras Fuentes" },
                 new() { FirstName = "Joaquin", LastName = "Chumacero" },
                 new() { FirstName = "Saturnino", LastName = "Mamani" },
@@ -648,6 +641,14 @@ namespace TopicosP1Backend.Scripts
                 new() { FirstName = "Shirley", LastName = "Perez"},
             };
             context.Teachers.AddRange(teachers);
+
+            var users = new List<User>
+            {
+                new() { Role = 'S', Login = "222008288", PasswordHash=Util.Hash("06Junio2004"), Token=Util.GenToken(), Student=students[0] },
+                new() { Role = 'S', Login = "123456789", PasswordHash=Util.Hash("12345678"), Token=Util.GenToken(), Student=students[2] },
+                new() { Role = 'C', Login = "admin", PasswordHash=Util.Hash("123"), Token=Util.GenToken() },
+            };
+            context.Users.AddRange(users);
 
             var studentsstudyplans = new List<StudentStudyPlan>()
             {
@@ -674,27 +675,74 @@ namespace TopicosP1Backend.Scripts
                 new() { Student = students[1], Period = periods[41], Type = 2},
                 new() { Student = students[0], Period = periods[41], Type = 0},
                 new() { Student = students[2], Period = periods[16], Type = 0},
+                new() { Student = students[0], Period = periods[16], Type = 0}, //15
+                new() { Student = students[0], Period = periods[17], Type = 0}, //16
+                new() { Student = students[0], Period = periods[24], Type = 0}, //17
+                new() { Student = students[0], Period = periods[25], Type = 0}, //18
+                new() { Student = students[0], Period = periods[26], Type = 0}, //19
+                new() { Student = students[0], Period = periods[32], Type = 0}, //20
+                new() { Student = students[0], Period = periods[33], Type = 0}, //21
+                new() { Student = students[0], Period = periods[40], Type = 0}, //22
             };
             context.Inscriptions.AddRange(inscriptions);
 
             var groups = new List<Group>()
             {
-                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[38], Teacher = teachers[0]},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[46], Teacher = teachers[0]},
-                new() { Code = "SB", Mode = "Presencial", Period = periods[40], Subject = subjects[44], Teacher = teachers[0]},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[43], Teacher = teachers[0]},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[45], Teacher = teachers[0]},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[50], Teacher = teachers[0]},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[41], Subject = subjects[78], Teacher = teachers[7], Quota = 20},
-                new() { Code = "SA", Mode = "Presencial", Period = periods[41], Subject = subjects[74], Teacher = teachers[6], Quota = 80},
-                new() { Code = "SC", Mode = "Presencial", Period = periods[41], Subject = subjects[53], Teacher = teachers[0]},
-                new() { Code = "SB", Mode = "Presencial", Period = periods[41], Subject = subjects[46], Teacher = teachers[0]},
-                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[3], Teacher = teachers[1]},
-                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[2], Teacher = teachers[2]},
-                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[1], Teacher = teachers[3]},
-                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[4], Teacher = teachers[4]},
-                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[0], Teacher = teachers[5]},
-                new() { Code = "SB", Mode = "Presencial", Period = periods[41], Subject = subjects[78], Teacher = teachers[7], Quota = 20},
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[38], Teacher = teachers[0]},             //0
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[46], Teacher = teachers[0]},             //1
+                new() { Code = "SB", Mode = "Presencial", Period = periods[40], Subject = subjects[44], Teacher = teachers[0]},             //2
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[43], Teacher = teachers[0]},             //3
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[45], Teacher = teachers[0]},             //4
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[50], Teacher = teachers[0]},             //5
+                new() { Code = "SA", Mode = "Presencial", Period = periods[41], Subject = subjects[78], Teacher = teachers[7], Quota = 20}, //6
+                new() { Code = "SA", Mode = "Presencial", Period = periods[41], Subject = subjects[74], Teacher = teachers[6], Quota = 80}, //7
+                new() { Code = "SC", Mode = "Presencial", Period = periods[41], Subject = subjects[53], Teacher = teachers[0]},             //8
+                new() { Code = "SB", Mode = "Presencial", Period = periods[41], Subject = subjects[46], Teacher = teachers[0]},             //9
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[3], Teacher = teachers[1]},              //10
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[2], Teacher = teachers[2]},              //11
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[1], Teacher = teachers[3]},              //12
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[4], Teacher = teachers[4]},              //13
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[0], Teacher = teachers[5]},              //14
+                new() { Code = "SB", Mode = "Presencial", Period = periods[41], Subject = subjects[78], Teacher = teachers[7], Quota = 20}, //15
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[0], Teacher = teachers[1]},               //16
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[1], Teacher = teachers[2]},               //17
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[2], Teacher = teachers[3]},               //18
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[3], Teacher = teachers[4]},               //19
+                new() { Code = "Z2", Mode = "Presencial", Period = periods[16], Subject = subjects[4], Teacher = teachers[5]},               //20
+                new() { Code = "SA", Mode = "Presencial", Period = periods[17], Subject = subjects[6], Teacher = teachers[1]},               //21
+                new() { Code = "SA", Mode = "Presencial", Period = periods[17], Subject = subjects[7], Teacher = teachers[2]},               //22
+                new() { Code = "SA", Mode = "Presencial", Period = periods[17], Subject = subjects[8], Teacher = teachers[3]},               //23
+                new() { Code = "SA", Mode = "Presencial", Period = periods[17], Subject = subjects[9], Teacher = teachers[4]},               //24
+                new() { Code = "SA", Mode = "Presencial", Period = periods[17], Subject = subjects[10], Teacher = teachers[5]},              //25
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[15], Teacher = teachers[1]},               //26
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[13], Teacher = teachers[2]},               //27
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[22], Teacher = teachers[3]},               //28
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[11], Teacher = teachers[4]},               //29
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[14], Teacher = teachers[5]},               //30
+                new() { Code = "SA", Mode = "Presencial", Period = periods[24], Subject = subjects[12], Teacher = teachers[5]},               //31
+                new() { Code = "SA", Mode = "Presencial", Period = periods[25], Subject = subjects[20], Teacher = teachers[1]},               //32
+                new() { Code = "SA", Mode = "Presencial", Period = periods[25], Subject = subjects[19], Teacher = teachers[2]},               //33
+                new() { Code = "SA", Mode = "Presencial", Period = periods[25], Subject = subjects[18], Teacher = teachers[3]},               //34
+                new() { Code = "SA", Mode = "Presencial", Period = periods[25], Subject = subjects[21], Teacher = teachers[4]},               //35
+                new() { Code = "SA", Mode = "Presencial", Period = periods[26], Subject = subjects[24], Teacher = teachers[5]},               //36
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[27], Teacher = teachers[1]},               //37
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[26], Teacher = teachers[2]},               //38
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[28], Teacher = teachers[3]},               //39
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[68], Teacher = teachers[4]},               //40
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[25], Teacher = teachers[5]},               //41
+                new() { Code = "SA", Mode = "Presencial", Period = periods[32], Subject = subjects[73], Teacher = teachers[5]},               //42
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[37], Teacher = teachers[1]},               //43
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[43], Teacher = teachers[2]},               //44
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[34], Teacher = teachers[3]},               //45
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[42], Teacher = teachers[4]},               //46
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[35], Teacher = teachers[5]},               //47
+                new() { Code = "SA", Mode = "Presencial", Period = periods[33], Subject = subjects[36], Teacher = teachers[5]},               //48
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[38], Teacher = teachers[2]},               //49
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[77], Teacher = teachers[3]},               //50
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[50], Teacher = teachers[4]},               //51
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[46], Teacher = teachers[5]},               //52
+                new() { Code = "SA", Mode = "Presencial", Period = periods[40], Subject = subjects[44], Teacher = teachers[5]},               //53
+
             };
             context.Groups.AddRange(groups);
 
@@ -751,28 +799,113 @@ namespace TopicosP1Backend.Scripts
                 new() { Group = groups[12], Inscription = inscriptions[14]},
                 new() { Group = groups[13], Inscription = inscriptions[14]},
                 new() { Group = groups[14], Inscription = inscriptions[14]},
+                //HISTORICO RFV
+                new() { Group = groups[16], Inscription = inscriptions[15]},
+                new() { Group = groups[17], Inscription = inscriptions[15]},
+                new() { Group = groups[18], Inscription = inscriptions[15]},
+                new() { Group = groups[19], Inscription = inscriptions[15]},
+                new() { Group = groups[20], Inscription = inscriptions[15]},
+
+                new() { Group = groups[21], Inscription = inscriptions[16]},
+                new() { Group = groups[22], Inscription = inscriptions[16]},
+                new() { Group = groups[23], Inscription = inscriptions[16]},
+                new() { Group = groups[24], Inscription = inscriptions[16]},
+                new() { Group = groups[25], Inscription = inscriptions[16]},
+
+                new() { Group = groups[26], Inscription = inscriptions[17]},
+                new() { Group = groups[27], Inscription = inscriptions[17]},
+                new() { Group = groups[28], Inscription = inscriptions[17]},
+                new() { Group = groups[29], Inscription = inscriptions[17]},
+                new() { Group = groups[30], Inscription = inscriptions[17]},
+                new() { Group = groups[31], Inscription = inscriptions[17]},
+
+                new() { Group = groups[32], Inscription = inscriptions[18]},
+                new() { Group = groups[33], Inscription = inscriptions[18]},
+                new() { Group = groups[34], Inscription = inscriptions[18]},
+                new() { Group = groups[35], Inscription = inscriptions[18]},
+
+                new() { Group = groups[36], Inscription = inscriptions[19]},
+
+                new() { Group = groups[37], Inscription = inscriptions[20]},
+                new() { Group = groups[38], Inscription = inscriptions[20]},
+                new() { Group = groups[39], Inscription = inscriptions[20]},
+                new() { Group = groups[40], Inscription = inscriptions[20]},
+                new() { Group = groups[41], Inscription = inscriptions[20]},
+                new() { Group = groups[42], Inscription = inscriptions[20]},
+
+                new() { Group = groups[43], Inscription = inscriptions[21]},
+                new() { Group = groups[44], Inscription = inscriptions[21]},
+                new() { Group = groups[45], Inscription = inscriptions[21]},
+                new() { Group = groups[46], Inscription = inscriptions[21]},
+                new() { Group = groups[47], Inscription = inscriptions[21]},
+                new() { Group = groups[48], Inscription = inscriptions[21]},
+
+                new() { Group = groups[49], Inscription = inscriptions[22]},
+                new() { Group = groups[50], Inscription = inscriptions[22]},
+                new() { Group = groups[51], Inscription = inscriptions[22]},
+                new() { Group = groups[52], Inscription = inscriptions[22]},
+                new() { Group = groups[53], Inscription = inscriptions[22]},
             };
+
             context.GroupInscriptions.AddRange(groupinscriptions);
 
             var studentgroups = new List<StudentGroups>
             {
-                new() { Group = groups[0], Student = students[0], Grade = 83, Status = 1},
-                new() { Group = groups[3], Student = students[0], Grade = 80, Status = 1},
-                new() { Group = groups[4], Student = students[0], Grade = 63, Status = 1},
-                new() { Group = groups[5], Student = students[0], Grade = 70, Status = 1},
-                new() { Group = groups[1], Student = students[0], Status = 2},
-                new() { Group = groups[2], Student = students[0], Status = 2},
                 new() { Group = groups[6], Student = students[1]},
                 new() { Group = groups[7], Student = students[1]},
-                new() { Group = groups[6], Student = students[0]},
-                new() { Group = groups[7], Student = students[0]},
-                new() { Group = groups[8], Student = students[0]},
-                new() { Group = groups[9], Student = students[0]},
                 new() { Group = groups[10], Student = students[2], Grade = 57, Status = 1},
                 new() { Group = groups[11], Student = students[2], Grade = 95, Status = 1},
                 new() { Group = groups[12], Student = students[2], Grade = 51, Status = 1},
                 new() { Group = groups[13], Student = students[2], Grade = 82, Status = 1},
                 new() { Group = groups[14], Student = students[2], Grade = 66, Status = 1},
+
+                //HISTORICO RFV
+                new() { Group = groups[16], Student = students[0], Grade = 66, Status = 1},
+                new() { Group = groups[17], Student = students[0], Grade = 51, Status = 1},
+                new() { Group = groups[18], Student = students[0], Grade = 95, Status = 1},
+                new() { Group = groups[19], Student = students[0], Grade = 57, Status = 1},
+                new() { Group = groups[20], Student = students[0], Grade = 82, Status = 1},
+
+                new() { Group = groups[21], Student = students[0], Grade = 92, Status = 1},
+                new() { Group = groups[22], Student = students[0], Grade = 61, Status = 1},
+                new() { Group = groups[23], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[24], Student = students[0], Grade = 80, Status = 1},
+                new() { Group = groups[25], Student = students[0], Grade = 86, Status = 1},
+
+                new() { Group = groups[26], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[27], Student = students[0], Grade = 88, Status = 1},
+                new() { Group = groups[28], Student = students[0], Grade = 90, Status = 1},
+                new() { Group = groups[29], Student = students[0], Grade = 81, Status = 1},
+                new() { Group = groups[30], Student = students[0], Grade = 77, Status = 1},
+                new() { Group = groups[31], Student = students[0], Grade = 70, Status = 1},
+
+                new() { Group = groups[32], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[33], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[34], Student = students[0], Grade = 91, Status = 1},
+                new() { Group = groups[35], Student = students[0], Grade = 76, Status = 1},
+
+                new() { Group = groups[36], Student = students[0], Grade = 85, Status = 1},
+
+                new() { Group = groups[37], Student = students[0], Grade = 90, Status = 1},
+                new() { Group = groups[38], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[39], Student = students[0], Grade = 90, Status = 1},
+                new() { Group = groups[40], Student = students[0], Grade = 78, Status = 1},
+                new() { Group = groups[41], Student = students[0], Grade = 92, Status = 1},
+                new() { Group = groups[42], Student = students[0], Grade = 80, Status = 1},
+
+                new() { Group = groups[43], Student = students[0], Grade = 66, Status = 1},
+                new() { Group = groups[44], Student = students[0], Grade = 95, Status = 1},
+                new() { Group = groups[45], Student = students[0], Grade = 51, Status = 1},
+                new() { Group = groups[46], Student = students[0], Grade = 72, Status = 1},
+                new() { Group = groups[47], Student = students[0], Grade = 63, Status = 1},
+                new() { Group = groups[48], Student = students[0], Grade = 80, Status = 1},
+
+                new() { Group = groups[49], Student = students[0], Grade = 100, Status = 1},
+                new() { Group = groups[50], Student = students[0], Grade = 85, Status = 1},
+                new() { Group = groups[51], Student = students[0], Grade = 77, Status = 1},
+                new() { Group = groups[52], Student = students[0], Grade = 70, Status = 1},
+                new() { Group = groups[53], Student = students[0], Grade = 62, Status = 1},
+
             };
             context.StudentGroups.AddRange(studentgroups);
 

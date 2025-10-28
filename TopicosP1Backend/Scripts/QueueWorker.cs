@@ -36,7 +36,7 @@ namespace TopicosP1Backend.Scripts
                     {
                         while (taken.Count > 0 && taken.TryDequeue(out QueuedFunction a))
                         {
-                            Console.WriteLine($"Worker {this.GetHashCode()}: Running {a.Function.GetDisplayName()}; {string.Join(", ", a.ItemIds)}; {a.Body}.");
+                            Console.WriteLine($"\nWorker {this.GetHashCode()}: Running {a.Function.GetDisplayName()}; {string.Join(", ", a.ItemIds)}; {a.Body} from {a.IP}.");
                             Status = "Running";
                             if (scope == null)
                             {
@@ -52,14 +52,14 @@ namespace TopicosP1Backend.Scripts
                             try { res = await a.Execute(context); }
                             catch
                             {
-                                Console.WriteLine($"Worker {this.GetHashCode()}: Catastrophic failure in executing task.");
+                                Console.WriteLine($"\nWorker {this.GetHashCode()}: Catastrophic failure in executing task.");
                                 int i = _queue.queues.IndexOf(_queue.Emptier((int)a.Function));
                                 a.Queue = i;
                                 _queue.Add(a);
                             }
                             if (res != null)
                             {
-                                Console.WriteLine($"Worker {this.GetHashCode()}: Task completed.");
+                                Console.WriteLine($"\nWorker {this.GetHashCode()}: Task finished.");
                                 _queue.AddResponse(a.Hash, res);
                                 string dn = a.Function.GetDisplayName();
                                 if (a.Callback != "") Console.WriteLine(a.Callback);

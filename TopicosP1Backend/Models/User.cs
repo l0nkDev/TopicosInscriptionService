@@ -9,5 +9,7 @@ namespace CareerApi.Models
         required public string Token { get; set; }
         required public string PasswordHash { get; set; }
         required public char Role { get; set; } //S: Estudiante, T: Docente, A: Administrativo, C: CPD
+        public Student? Student { get; set; }
+        public Teacher? Teacher { get; set; }
     }
 }

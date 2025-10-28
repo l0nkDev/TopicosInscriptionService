@@ -171,11 +171,12 @@ namespace TopicosP1Backend.Scripts
             return res;
         }
 
-        public object Request(Function function, List<string> itemIds, string body, string hashtarget, bool delete = false, string callback = "")
+        public object Request(Function function, List<string> itemIds, string body, string hashtarget, bool delete = false, string callback = "", string ip = "0.0.0.0")
         {
-            string tranid = Util.Hash(hashtarget);
+            string tranid = Util.Hash($"{hashtarget} {ip}");
+            Console.WriteLine($"\n{ip} requested the function: {hashtarget}; tranId:{tranid}");
             QueuedFunction qf = new QueuedFunction()
-            { Queue = queues.IndexOf(Emptier((int)function)), Function = function, ItemIds = itemIds, Hash = tranid, Body = body, Callback = callback };
+            { Queue = queues.IndexOf(Emptier((int)function)), Function = function, ItemIds = itemIds, Hash = tranid, Body = body, Callback = callback, IP = ip };
             string dn = function.GetDisplayName();
             thingsreceived.AddOrUpdate(dn, 1, (key, oldValue) => oldValue + 1);
 

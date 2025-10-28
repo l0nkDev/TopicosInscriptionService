@@ -22,6 +22,7 @@ builder.Services.AddHttpClient();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<TopicosP1Backend.Scripts.TestContext>(opt => opt.UseInMemoryDatabase("test"));
 builder.Services.AddDbContext<Context>(opt =>
     opt.UseNpgsql("Username=postgres; Password=\\^MGbat%=5deeuN; Host=34.55.58.2; Database=topicos;"));
 //    opt.UseNpgsql("Username=postgres; Password=postgres; Host=localhost; Database=topicos;"));
@@ -53,6 +54,7 @@ app.MapControllers();
 
 app.CreateDbIfNotExists();
 app.CreateCacheIfNotExists();
+app.CreateTestDbIfNotExists();
 
 
 app.Run();
